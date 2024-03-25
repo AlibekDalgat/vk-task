@@ -15,13 +15,13 @@ func NewAuthPostgres(db *sqlx.DB) *AuthPostgres {
 }
 
 func (p *AuthPostgres) CreateUser(user models.User) (models.User, error) {
-	var log, pas string
+	var output models.User
 	query := fmt.Sprintf("INSERT INTO %s (login, password_hash) VALUES ($1, $2) RETURNING login, password_hash", usersTable)
 	row := p.db.QueryRow(query, user.Login, user.Password)
-	if err := row.Scan(&log, &pas); err != nil {
+	if err := row.Scan(&output.Login, &output.Password); err != nil {
 		return models.User{}, err
 	}
-	return models.User{Login: log, Password: pas}, nil
+	return output, nil
 }
 
 func (p *AuthPostgres) GetUser(login, password string) (models.User, error) {

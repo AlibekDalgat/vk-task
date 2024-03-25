@@ -7,7 +7,8 @@ import (
 )
 
 const (
-	usersTable = "users"
+	usersTable          = "users"
+	advertisementsTable = "advertisements"
 )
 
 func OpenDB(cfg config.DBConfig) (*sqlx.DB, error) {

@@ -15,7 +15,7 @@ func (u User) Validate() error {
 	errPas := validation.ValidPassword(u.Password)
 	err := ""
 	if errLog != nil {
-		err += errLog.Error()
+		err += errLog.Error() + "\n"
 	}
 	if errPas != nil {
 		err += errPas.Error()

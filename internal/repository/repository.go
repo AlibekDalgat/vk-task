@@ -10,12 +10,18 @@ type Authorization interface {
 	GetUser(login, password string) (models.User, error)
 }
 
+type Advertisement interface {
+	Create(input models.Advert) (models.Advert, error)
+}
+
 type Repository struct {
 	Authorization
+	Advertisement
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		Authorization: NewAuthPostgres(db),
+		Advertisement: NewAdvertPostgres(db),
 	}
 }

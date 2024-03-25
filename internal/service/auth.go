@@ -22,7 +22,7 @@ type AuthService struct {
 
 type tokenClaims struct {
 	jwt.MapClaims
-	User models.User `json:"user"`
+	Login string `json:"login"`
 }
 
 func NewAuthService(repo repository.Authorization) *AuthService {
@@ -47,13 +47,13 @@ func (s *AuthService) GenerateToken(login, password string) (string, error) {
 			"exp": time.Now().Add(tokenTTL).Unix(),
 			"iat": time.Now().Unix(),
 		},
-		user,
+		user.Login,
 	})
 
 	return token.SignedString([]byte(signingKey))
 }
 
-func (s *AuthService) ParseToken(accessToken string) (models.User, error) {
+func (s *AuthService) ParseToken(accessToken string) (string, error) {
 	token, err := jwt.ParseWithClaims(accessToken, &tokenClaims{}, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, errors.New("Неверный метод авторизации")
@@ -61,15 +61,15 @@ func (s *AuthService) ParseToken(accessToken string) (models.User, error) {
 		return []byte(signingKey), nil
 	})
 	if err != nil {
-		return models.User{}, err
+		return "", err
 	}
 
 	claims, ok := token.Claims.(*tokenClaims)
 	if !ok {
-		return models.User{}, errors.New("клеймы токена не типа  *tokenClaims")
+		return "", errors.New("клеймы токена не типа  *tokenClaims")
 	}
 
-	return claims.User, nil
+	return claims.Login, nil
 }
 
 func generatePassword(password string) string {

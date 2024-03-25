@@ -1,16 +1,16 @@
 CREATE TABLE users
 (
-    login VARCHAR(255) PRIMARY KEY,
+    login VARCHAR(20) PRIMARY KEY,
     password_hash VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE advertisements
 (
-    id SERIAL PRIMARY KEY ,
+    id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     text VARCHAR(1000),
     image VARCHAR(255),
     price REAL,
-    posting_date TIMESTAMP,
+    posting_date TIMESTAMP NOT NULL ,
     owner VARCHAR(255) REFERENCES users(login) ON DELETE CASCADE NOT NULL
 );
