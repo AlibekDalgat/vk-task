@@ -11,5 +11,6 @@ CREATE TABLE advertisements
     text VARCHAR(1000),
     image VARCHAR(255),
     price REAL,
+    posting_date TIMESTAMP,
     owner VARCHAR(255) REFERENCES users(login) ON DELETE CASCADE NOT NULL
 );

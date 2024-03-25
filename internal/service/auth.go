@@ -30,6 +30,9 @@ func NewAuthService(repo repository.Authorization) *AuthService {
 }
 
 func (s *AuthService) CreateUser(user models.User) (models.User, error) {
+	if err := user.Validate(); err != nil {
+		return models.User{}, err
+	}
 	user.Password = generatePassword(user.Password)
 	return s.repo.CreateUser(user)
 }
