@@ -23,7 +23,11 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	}
 	api := router.Group("/api", h.userIdentity)
 	{
-		api.POST("/new-post", h.createAdvert)
+		adverts := api.Group("/adverts")
+		{
+			adverts.POST("/", h.createAdvert)
+			adverts.GET("/", h.listAdverts)
+		}
 	}
 	return router
 }

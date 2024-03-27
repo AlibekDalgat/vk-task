@@ -24,3 +24,14 @@ func (p *AdvertPostgres) Create(input models.Advert) (models.Advert, error) {
 	}
 	return output, nil
 }
+
+func (p *AdvertPostgres) GetAll(login string, params models.AdvertParams) ([]models.AdvertOutput, error) {
+	var adverts []models.AdvertOutput
+	query := fmt.Sprintf("SELECT title, text, image, price, owner, (owner = $1) as is_owner FROM %s "+
+		"WHERE price >= $2 AND price <= $3 ORDER BY %s %s LIMIT $4 OFFSET $5", advertisementsTable, params.Sort, params.Direction)
+	err := p.db.Select(&adverts, query, login, params.PriceMin, params.PriceMax, params.Limit, (params.Page-1)*params.Limit)
+	if err != nil {
+		return nil, err
+	}
+	return adverts, nil
+}

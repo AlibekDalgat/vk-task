@@ -13,6 +13,7 @@ type Authorization interface {
 
 type Advertisement interface {
 	Create(login string, input models.Advert) (models.Advert, error)
+	GetAll(login string, params models.AdvertParams) ([]models.AdvertOutput, error)
 }
 
 type Service struct {

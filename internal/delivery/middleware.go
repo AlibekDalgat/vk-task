@@ -15,7 +15,6 @@ const (
 func (h *Handler) userIdentity(c *gin.Context) {
 	header := c.GetHeader(authorizationHeader)
 	if header == "" {
-		newErrorResponse(c, http.StatusUnauthorized, "неавторизированный пользователь")
 		return
 	}
 

@@ -23,3 +23,14 @@ func (adv *AdvertService) Create(login string, input models.Advert) (models.Adve
 	input.PostingDate = time.Now()
 	return adv.repo.Create(input)
 }
+
+func (adv *AdvertService) GetAll(login string, params models.AdvertParams) ([]models.AdvertOutput, error) {
+	if err := params.Validate(); err != nil {
+		return nil, err
+	}
+	adverts, err := adv.repo.GetAll(login, params)
+	if err != nil {
+		return nil, err
+	}
+	return adverts, nil
+}
