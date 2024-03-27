@@ -11,15 +11,18 @@ type Advert struct {
 	Title       string    `json:"title" binding:"required"`
 	Text        *string   `json:"text"`
 	Image       *string   `json:"image"`
-	Price       float32   `json:"price" binding:"required"`
+	Price       *float32  `json:"price" binding:"required"`
 	PostingDate time.Time `json:"posting_date"`
 	Owner       string    `json:"owner"`
 }
 
 func (advert Advert) Validate() error {
 	err := ""
+	if len(advert.Title) == 0 || advert.Price == nil {
+		err += "Объявление должно иметь название и цену\n"
+	}
 	if len(advert.Title) > 100 {
-		err += "Длина текста не должна превышать 1000\n"
+		err += "Длина названия не должна превышать 100\n"
 	}
 	if advert.Text != nil && len(*advert.Text) > 1000 {
 		err += "Длина текста не должна превышать 1000\n"
@@ -32,7 +35,7 @@ func (advert Advert) Validate() error {
 			err += errImage.Error() + "\n"
 		}
 	}
-	if advert.Price < 0 {
+	if *advert.Price < 0 {
 		err += "Цена должна быть положительной\n"
 	}
 	if err == "" {
