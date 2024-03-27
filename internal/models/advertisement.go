@@ -77,10 +77,10 @@ func (params AdvertParams) Validate() error {
 }
 
 type AdvertOutput struct {
-	Title   string  `db:"title"`
-	Text    *string `db:"text"`
-	Image   *string `db:"image"`
-	Price   float32 `db:"price"`
-	Owner   string  `db:"owner"`
-	IsOwner bool    `db:"is_owner"`
+	Title   string  `db:"title" json:"title"`
+	Text    *string `db:"text" json:"text"`
+	Image   *string `db:"image" json:"image"`
+	Price   float32 `db:"price" json:"price"`
+	Owner   string  `db:"owner" json:"owner"`
+	IsOwner bool    `db:"is_owner" json:"isOwner"`
 }
