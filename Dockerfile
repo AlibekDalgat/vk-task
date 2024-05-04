@@ -7,6 +7,7 @@ WORKDIR /marketplace/
 
 RUN apt-get update && apt-get -y install postgresql-client
 
+RUN go mod tidy
 RUN go mod download
 RUN GOOS=linux go build -o ./bin/app ./cmd/main.go
 
